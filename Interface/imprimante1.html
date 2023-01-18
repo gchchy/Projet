@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <title>Parc 3D controller</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+
+    <link rel="stylesheet" href="assets/css/templatemo-tale-seo-agency.css">
+
+
+  </head>
+
+<body>
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/logo.png" alt="" style="max-width: 1012px;">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="main-banner" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="caption header-text">
+            <h6>Command your printer</h6>
+            <div class="line-dec"></div>
+			<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => '172.26.137.74/api/connection',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'X-Api-Key: A166DBB65C8A4169B838BA013710F06F'
+  ),
+));
+
+$response = curl_exec($curl);;
+	if(!empty($response)){
+$response_data = json_decode($response);
+echo '<h5>Current state: <em>' . $response_data->current->state . "</em><br></h5> ";
+
+if($response_data->current->state == "Printing") //a changer
+	{
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => '172.26.137.74/api/job',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Content-Type: application/json',
+    'X-Api-Key: A166DBB65C8A4169B838BA013710F06F'
+  ),
+));
+
+
+if(!empty($response)){
+$response_data = json_decode($response);
+echo '<h5>Secondes left: <em>' . $response_data->job->estimatedPrintTime . "</em><br><br></h5> ";
+
+	}
+echo '<p>You will be allowed to get informations and print your own design, do everything from your computer after the end of this printing</a>.</p>';
+	}else{
+	echo '<p>You are allowed to get informations and print your own design, do everything from your computer </a>.</p>
+	<div class="main-button scroll-to-section"><a href="move.php">Imprimante 2</a></div>
+            <span>or</span>
+            <div class="second-button"><form action="request.php" method="post"><input type="submit" value="zzz"></form></div>';
+
+	}
+	}
+	
+	echo '<p>This printer is disconnected</a>.</p>';
+	curl_close($curl);
+?>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
